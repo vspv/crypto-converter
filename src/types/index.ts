@@ -4,4 +4,7 @@ export type TCoin = {
     imageUrl: string;
     price: number;
     volume24Hour: number;
-}
+};
+
+
+export type TCoinDiff = { [key: string]: string };

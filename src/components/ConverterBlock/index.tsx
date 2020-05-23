@@ -8,16 +8,18 @@ import Select from "@material-ui/core/Select";
 import Paper from "@material-ui/core/Paper";
 import MenuItem from '@material-ui/core/MenuItem';
 import CurrenciesStore from "../../stores/currenciesStore";
+import ConverterStore from "../../stores/converterStore";
 
 
 type IConverterBlock = {
     classes: any;
     currenciesStore?: CurrenciesStore;
+    converterStore?: ConverterStore;
 };
 
 
-const ConverterBlock: React.FC<IConverterBlock> = inject('currenciesStore')(
-    observer(({classes, currenciesStore}) => {
+const ConverterBlock: React.FC<IConverterBlock> = inject('currenciesStore', 'converterStore')(
+    observer(({classes, currenciesStore, converterStore}) => {
         const coins: string[] = currenciesStore!.getItems.map(coin => coin.name);
 
 
@@ -28,8 +30,10 @@ const ConverterBlock: React.FC<IConverterBlock> = inject('currenciesStore')(
                         <TextField label="Сумма"/>
                     </FormControl>
                     <FormControl className={classes.currencyType}>
-                        <InputLabel id="demo-simple-select-helper-label">Валюта</InputLabel>
-                        <Select value={coins[0]}>
+                        <InputLabel shrink id="demo-simple-select-helper-label">
+                            Валюта
+                        </InputLabel>
+                        <Select value={converterStore?.getSelectedCoin.name || ''}>
                             {coins.map(name => (
                                 <MenuItem value={name}>{name}</MenuItem>
                             ))}
@@ -43,7 +47,7 @@ const ConverterBlock: React.FC<IConverterBlock> = inject('currenciesStore')(
                     </FormControl>
                     <FormControl className={classes.currencyType}>
                         <InputLabel id="demo-simple-select-helper-label">Валюта</InputLabel>
-                        <Select value={coins[0]}>
+                        <Select value={coins[0] || ''}>
                             {coins.map(name => (
                                 <MenuItem value={name}>{name}</MenuItem>
                             ))}
